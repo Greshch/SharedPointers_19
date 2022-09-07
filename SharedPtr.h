@@ -61,10 +61,10 @@ public:
 		DecLinkById(id);
 		int links = buffer[id].links;
 		if (links == 0) {
+			std::cout << "Destr-r completed\t" << *m_ptr << "\n";
 			delete m_ptr;
 			m_ptr = nullptr;
 			CleanById(id);
-			std::cout << "Destr-r completed\n";
 		}
 	}
 
