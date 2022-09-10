@@ -31,9 +31,7 @@ public:
 	SharedPtr& operator= (SharedPtr const& other) {
 		if (this != &other) {
 			int old_id = GetId(m_ptr);
-			delete m_ptr;
-			CleanById(old_id);
-			
+			CleanUp();
 			m_ptr = other.m_ptr;
 			int new_id = GetId(other.m_ptr);
 			IncrLinkById(new_id);
@@ -57,11 +55,17 @@ public:
 	}
 
 	~SharedPtr() {
+		CleanUp();
+	}
+
+	void CleanUp()
+	{
+		std::cout << "#CleanUp\t" << *m_ptr << "\n";
 		int id = GetId(m_ptr);
 		DecLinkById(id);
 		int links = buffer[id].links;
 		if (links == 0) {
-			std::cout << "Destr-r completed\t" << *m_ptr << "\n";
+			std::cout << "\t!!Destr-r completed!!\t" << *m_ptr << "\n";
 			delete m_ptr;
 			m_ptr = nullptr;
 			CleanById(id);
